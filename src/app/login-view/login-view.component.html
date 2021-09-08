@@ -1,0 +1,18 @@
+<main class="form-signin text-center">
+  <form [formGroup]="form" (submit)="submitLogin()">
+    <img class="mb-4" src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-375-456327-1024.png" alt=""
+      width="128" height="128">
+    <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+
+    <div class="form-floating">
+      <input formControlName="email" type="email" class="form-control" placeholder="name@example.com" required>
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input formControlName="pass" type="password" class="form-control" placeholder="Password" required>
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+  </form>
+</main>
