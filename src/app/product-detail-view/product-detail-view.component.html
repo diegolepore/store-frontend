@@ -1,2 +1,147 @@
 <p>product-detail-view works!</p>
 <p>Product id: {{ id }}</p>
+<!--Section: Block Content-->
+<section *ngIf="product" class="mb-5">
+
+  <div class="row">
+    <div class="col-md-6 mb-4 mb-md-0">
+
+      <div id="mdb-lightbox-ui"></div>
+
+      <div class="mdb-lightbox">
+
+        <div class="row product-gallery mx-1">
+
+          <div class="col-12 mb-0">
+            <figure class="d-flex justify-content-center view overlay rounded z-depth-1 main-img">
+              <img src="{{ product.image_url }}" width="100%" class="ma-auto img-fluid z-depth-1">
+            </figure>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+      <h5>{{ product.name }}</h5>
+      <p class="mb-2 text-muted text-uppercase small">{{ product.category }}</p>
+      <!-- <p><span class="mr-1"><strong>{{ (product$ | async).price }}</strong></span></p> -->
+      <p class="pt-1">
+        {{ product.description }}
+      </p>
+      <hr>
+      <div class="table-responsive mb-2">
+        <table class="table table-sm table-borderless">
+          <tbody>
+            <tr>
+              <td class="pl-0 pb-0 w-25">Quantity</td>
+            </tr>
+            <tr>
+              <td class="pl-0">
+                <div class="def-number-input number-input safari_only mb-0">
+                  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">
+                    <span class="minus-icon"></span>
+                  </button>
+                  <input class="quantity" min="0" name="quantity" value="1" type="number">
+                  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
+                    <span class="plus-icon"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to
+        cart</button>
+    </div>
+  </div>
+
+</section>
+<!--Section: Block Content-->
+
+<style lang="scss">
+  .number-input.number-input {
+    border: 1px solid #ced4da;
+    width: 8.6rem;
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .number-input button {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+  }
+
+  .number-input.number-input button.minus {
+    padding-left: 10px;
+  }
+
+  .number-input button span:before,
+  .number-input button span:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    height: 2px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .number-input.number-input button span:before,
+  .number-input.number-input button span:after {
+    width: .7rem;
+    background-color: #495057;
+  }
+
+  .number-input button.plus span:after {
+    -webkit-transform: translate(-50%, -50%) rotate(90deg);
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .number-input input[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .number-input.number-input input[type=number] {
+    max-width: 3rem;
+    padding: .5rem;
+    border: 1px solid #ced4da;
+    border-width: 0 1px;
+    font-size: 1rem;
+    height: 2rem;
+    color: #495057;
+    text-align: center;
+  }
+
+  .number-input.number-input button {
+    width: 2.5rem;
+    height: .7rem;
+  }
+</style>

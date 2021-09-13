@@ -6,31 +6,39 @@ import { LoginViewComponent } from './login-view/login-view.component'
 import { RegisterViewComponent } from './register-view/register-view.component'
 import { CartViewComponent } from './cart-view/cart-view.component'
 import { OrderConfirmationViewComponent } from './order-confirmation-view/order-confirmation-view.component'
+import { AuthGuardService } from './services/routeGuards/auth/auth-guard.service'
+import { CommonGuardService } from './services/routeGuards/common/common-guard.service'
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductsListViewComponent
+    component: ProductsListViewComponent,
+    canActivate: [CommonGuardService]
   },
   {
     path: 'product/:id',
-    component: ProductDetailViewComponent
+    component: ProductDetailViewComponent,
+    canActivate: [CommonGuardService]
   },
   {
     path: 'login',
-    component: LoginViewComponent
+    component: LoginViewComponent,
+    canActivate: [CommonGuardService]
   },
   {
     path: 'register',
-    component: RegisterViewComponent
+    component: RegisterViewComponent,
+    canActivate: [CommonGuardService]
   },
   {
     path: 'cart',
-    component: CartViewComponent
+    component: CartViewComponent,
+    canActivate : [AuthGuardService]
   },
   {
     path: 'order-confirmation',
-    component: OrderConfirmationViewComponent
+    component: OrderConfirmationViewComponent,
+    canActivate : [AuthGuardService]
   },
 ];
 

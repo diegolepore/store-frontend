@@ -14,6 +14,12 @@ import { RegisterViewComponent } from './register-view/register-view.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CookieService } from 'ngx-cookie-service';
 
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './store/auth/auth.reducer'
+import { productsReducer } from './store/products/products.reducer'
+import { userReducer } from './store/user/user.reducer'
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +37,13 @@ import { CookieService } from 'ngx-cookie-service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StoreModule.forRoot(
+      { 
+        authState: authReducer,
+        productsState: productsReducer,
+        userState: userReducer
+      },
+    )
   ],
   providers: [
     CookieService
