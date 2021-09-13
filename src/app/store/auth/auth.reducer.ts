@@ -10,7 +10,6 @@ export const authState = { ...defaultState }
 const _authReducer = createReducer(
   authState,
   on(actions.login, (state, { access_token }) => Object.assign({}, state, { access_token })),
-  on(actions.getAuthData, (state) => state),
   on(actions.logout, (state) =>  Object.assign({}, defaultState))
 )
 

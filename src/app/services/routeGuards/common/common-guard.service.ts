@@ -13,6 +13,8 @@ import { Store, select } from '@ngrx/store';
 import * as authActions from '../../../store/auth/auth.actions'
 import * as userActions from '../../../store/user/user.actions'
 
+import { UserService } from '../../api/user/user.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,17 +26,16 @@ export class CommonGuardService implements CanActivate {
   constructor(
     private router: Router, 
     private cookieService: CookieService,
+    private userService: UserService,
     private store: Store<{ authState: Auth, userState: any }>
-  ) {
-    // console.log('this.router.url', this.router.url)
-  }
-  
+  ) {}
+
   getAuthUser(access_token: string): void {
     const decoded = (jwt_decode(access_token) as unknown) as any;
-    console.log('getUserRes: ', decoded.user)
-    this.store.dispatch(userActions.setUser({ user: decoded.user }))
-    
-    console.log('this.userState$: ', this.userState$)
+
+    this.userService.getAuthUser(decoded.user.id, access_token).subscribe((res) => {
+      this.store.dispatch(userActions.setUser({ user: res }))
+    })
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -45,18 +46,12 @@ export class CommonGuardService implements CanActivate {
     
     this.authState$.subscribe((res) => accessToken = res.access_token )
 
-    // if(state.url === '/login' || state.url === "/register") {
-    //   this.router.navigate([this.router.url])
-    //   return false
-    // }
-
     if(!accessToken) {
       if(cookieToken) {
         if(state.url === '/login' || state.url === "/register") {
           this.router.navigate([this.router.url])
           return false
         }
-        // fetch user
         this.store.dispatch(authActions.login({access_token: cookieToken}))
         this.getAuthUser(cookieToken)
         return true
