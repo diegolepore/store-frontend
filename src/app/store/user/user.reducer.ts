@@ -10,7 +10,8 @@ export const userState = { ...defaultState }
 
 const _userReducer = createReducer(
   userState,
-  on(actions.setUser, (state, { user }) =>  Object.assign({}, state, { user }))
+  on(actions.setUser, (state, { user }) =>  Object.assign({}, state, { user })),
+  on(actions.clearUserState, (state) =>  Object.assign({}, defaultState))
 )
 
 export function userReducer(state: { user: any} | undefined, action: Action) {
