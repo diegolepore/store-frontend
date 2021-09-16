@@ -39,5 +39,8 @@ export class CartViewComponent implements OnInit {
     })
   }
 
+  productsQuantity() {
+    return this.cartArr.length
+  }
 
 }
