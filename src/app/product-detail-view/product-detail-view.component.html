@@ -31,30 +31,33 @@
         {{ product.description }}
       </p>
       <hr>
-      <div class="table-responsive mb-2">
-        <table class="table table-sm table-borderless">
-          <tbody>
-            <tr>
-              <td class="pl-0 pb-0 w-25">Quantity</td>
-            </tr>
-            <tr>
-              <td class="pl-0">
-                <div class="def-number-input number-input safari_only mb-0">
-                  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">
-                    <span class="minus-icon"></span>
-                  </button>
-                  <input class="quantity" min="1" name="quantity" value="1" type="number">
-                  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
-                    <span class="plus-icon"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to
-        cart</button>
+      <div *ngIf="access_token">
+        <div class="table-responsive mb-2">
+          <table class="table table-sm table-borderless">
+            <tbody>
+              <tr>
+                <td class="pl-0 pb-0 w-25">Quantity</td>
+              </tr>
+              <tr>
+                <td class="pl-0">
+                  <div class="def-number-input number-input safari_only mb-0">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">
+                      <span class="minus-icon"></span>
+                    </button>
+                    <input class="quantity" min="1" name="quantity" value="1" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
+                      <span class="plus-icon"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>
+          Add to cart
+        </button>
+        </div>
     </div>
   </div>
 
