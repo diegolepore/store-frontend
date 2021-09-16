@@ -4,6 +4,7 @@ import { Product } from '../models/Product';
 
 // Services
 import { ProductsService } from '../services/api/products/products.service';
+
 @Component({
   selector: 'app-product-detail-view',
   templateUrl: './product-detail-view.component.html',
@@ -25,7 +26,6 @@ export class ProductDetailViewComponent implements OnInit {
 
     this.getProduct(this.id)
   }
-
 
   getProduct(id: string): void {
     this.productsService.getProductById(id)
