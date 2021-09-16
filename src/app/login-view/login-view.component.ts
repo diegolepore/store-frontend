@@ -46,18 +46,20 @@ export class LoginViewComponent implements OnInit {
     this.userState$ = this.store.pipe(select('userState'))
   }
 
-  getAuthUser(access_token: string): void {
-      const decoded = (jwt_decode(access_token) as unknown) as any;
-      console.log('getUserRes: ', decoded.user)
-      this.store.dispatch(userActions.setUser({ user: decoded.user }))
+  // getAuthUser(access_token: string): void {
+  //     const decoded = (jwt_decode(access_token) as unknown) as any;
+  //     console.log('getUserRes: ', decoded.user)
+  //     this.store.dispatch(userActions.setUser({ user: decoded.user }))
       
-      console.log('this.userState$: ', this.userState$)
+  //     console.log('this.userState$: ', this.userState$)
+  // }
 
-      
-      // this.userService.getAuthUser(decoded.user.id, access_token).subscribe((getUserRes) => {
-      //   console.log('getUserRes: ', getUserRes)
-      //   // this.store.dispatch(userActions.setUser({access_token: res.access_token}))
-      // })
+  getAuthUser(access_token: string): void {
+    const decoded = (jwt_decode(access_token) as unknown) as any;
+
+    this.userService.getAuthUser(decoded.user.id, access_token).subscribe((res) => {
+      this.store.dispatch(userActions.setUser({ user: res }))
+    })
   }
 
   submitLogin(): void {

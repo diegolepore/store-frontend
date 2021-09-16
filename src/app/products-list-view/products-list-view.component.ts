@@ -16,11 +16,12 @@ import * as productsActions from '../store/products/products.actions'
 })
 export class ProductsListViewComponent implements OnInit {
   productsState$!: Observable<{ products: Product[] }>;
+  products!: Product[]
 
   constructor(
     private productsService: ProductsService,
     private store: Store<{ productsState: { products: Product[] } }>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getProducts()
@@ -32,6 +33,7 @@ export class ProductsListViewComponent implements OnInit {
           console.log('Products res: ', res)
           this.store.dispatch(productsActions.setProducts({products: res}))
           this.productsState$ = this.store.pipe(select('productsState'))
+          this.productsState$.subscribe((res) => this.products = res.products )
         })
     }
 

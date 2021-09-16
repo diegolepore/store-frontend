@@ -17,7 +17,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth/auth.reducer'
 import { productsReducer } from './store/products/products.reducer'
-import { userReducer } from './store/user/user.reducer'
+import { userReducer } from './store/user/user.reducer';
+import { ProductListItemComponent } from './product-list-item/product-list-item.component'
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { userReducer } from './store/user/user.reducer'
     OrderConfirmationViewComponent,
     LoginViewComponent,
     RegisterViewComponent,
-    NavigationComponent
+    NavigationComponent,
+    ProductListItemComponent
   ],
   imports: [
     BrowserModule,
