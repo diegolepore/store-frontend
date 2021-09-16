@@ -33,7 +33,10 @@ export class CartViewComponent implements OnInit {
     })
   }
 
-  deleteProductFromCart(order_id: string, product_id: string): void {
+  deleteProductFromCart(payload: any): void {
+
+    const { order_id, product_id } = payload
+
     this.cartService.deleteProductFromCart(order_id, product_id, this.access_token).subscribe((res) => {
       this.getProductsInOrder()
     })

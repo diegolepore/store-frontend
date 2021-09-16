@@ -31,7 +31,7 @@
                     <button type="button" (click)="stepDown()" class="minus">
                       <span class="minus-icon"></span>
                     </button>
-                    <input class="quantity" min="1" name="quantity" value="1" type="number" [(ngModel)]="quantity"
+                    <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="quantity"
                       #productQuantity="ngModel">
                     <button type="button" (click)="stepUp()" class="plus">
                       <span class="plus-icon"></span>

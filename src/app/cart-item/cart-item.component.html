@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+  <div class="d-flex flex-row">
+    <img class="rounded me-4" src="{{ product.image_url }}" width="40">
+    <div class="ml-2">
+      <span class="font-weight-bold d-block">{{ product.name }}</span>
+    </div>
+  </div>
+  <div class="d-flex flex-row align-items-center">
+    <!-- <span class="d-block me-3">{{ product.quantity }}</span> -->
+    <div class="def-number-input number-input safari_only mb-0 me-3">
+      <form #form="ngForm">
+        <button type="button" (click)="stepDown()" class="minus">
+          <span class="minus-icon"></span>
+        </button>
+        <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="product.quantity"
+          #productQuantity="ngModel">
+        <button type="button" (click)="stepUp()" class="plus">
+          <span class="plus-icon"></span>
+        </button>
+      </form>
+    </div>
+
+    <span class="d-block me-3 font-weight-bold">{{ product.price }}€</span>
+    <i class="fa fa-trash-o ml-3 text-black-50 cursor-pointer" (click)="deleteElementFromCart()"></i>
+  </div>
+</div>
