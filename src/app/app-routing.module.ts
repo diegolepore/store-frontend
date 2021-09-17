@@ -5,6 +5,7 @@ import { ProductDetailViewComponent } from './product-detail-view/product-detail
 import { LoginViewComponent } from './login-view/login-view.component'
 import { RegisterViewComponent } from './register-view/register-view.component'
 import { CartViewComponent } from './cart-view/cart-view.component'
+import { SuccessOrderComponent } from './success-order/success-order.component'
 import { OrderConfirmationViewComponent } from './order-confirmation-view/order-confirmation-view.component'
 import { AuthGuardService } from './services/routeGuards/auth/auth-guard.service'
 import { CommonGuardService } from './services/routeGuards/common/common-guard.service'
@@ -38,6 +39,11 @@ const routes: Routes = [
   {
     path: 'order-confirmation',
     component: OrderConfirmationViewComponent,
+    canActivate : [AuthGuardService]
+  },
+  {
+    path: 'success-order',
+    component: SuccessOrderComponent,
     canActivate : [AuthGuardService]
   },
 ];

@@ -19,7 +19,8 @@ import { authReducer } from './store/auth/auth.reducer'
 import { productsReducer } from './store/products/products.reducer'
 import { userReducer } from './store/user/user.reducer';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
-import { CartItemComponent } from './cart-item/cart-item.component'
+import { CartItemComponent } from './cart-item/cart-item.component';
+import { SuccessOrderComponent } from './success-order/success-order.component'
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { CartItemComponent } from './cart-item/cart-item.component'
     RegisterViewComponent,
     NavigationComponent,
     ProductListItemComponent,
-    CartItemComponent
+    CartItemComponent,
+    SuccessOrderComponent
   ],
   imports: [
     BrowserModule,

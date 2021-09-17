@@ -23,35 +23,44 @@
         
         </div>
         </div>
-        <div class="col-md-4">
+        <div *ngIf="cartArr.length" class="col-md-4">
           <div class="payment-info">
-            <div class="d-flex justify-content-between align-items-center"><span>Card details</span><img class="rounded"
-                src="https://i.imgur.com/WU501C8.jpg" width="30"></div><span class="type d-block mt-3 mb-1">Card
-              type</span><label class="radio"> <input type="radio" name="card" value="payment" checked> <span><img width="30"
-                  src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-            <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                  src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
-            <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                  src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
-            <label class="radio"> <input type="radio" name="card" value="payment"> <span><img width="30"
-                  src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
-            <div><label class="credit-card-label">Name on card</label><input type="text" class="form-control credit-inputs"
-                placeholder="Name"></div>
-            <div><label class="credit-card-label">Card number</label><input type="text" class="form-control credit-inputs"
-                placeholder="0000 0000 0000 0000"></div>
+            <form #paymentForm="ngForm" (submit)="completeOrder()">
+              <div class="d-flex justify-content-between align-items-center"><span>Card details</span></div>
+              <div>
+                <label class="credit-card-label">Name on card</label>
+                <input name="nameOnCard" type="text" required class="form-control credit-inputs" placeholder="Name"
+                  [(ngModel)]="nameOnCard">
+              </div>
+              <div>
+                <label class="credit-card-label">Card number</label>
+                <input name="cardNumber" type="number" class=" form-control credit-inputs" placeholder="0000 0000 0000 0000"
+                  [(ngModel)]="cardNumber" required minlength="16" maxlength="16"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+              </div>
             <div class="row">
-              <div class="col-md-6"><label class="credit-card-label">Date</label><input type="text"
-                  class="form-control credit-inputs" placeholder="12/24"></div>
-              <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text"
-                  class="form-control credit-inputs" placeholder="342"></div>
+              <div class="col-md-6">
+                <label class="credit-card-label">Date</label>
+                <input name="cardDate" type="text" required class="form-control credit-inputs" placeholder="12/24" [(ngModel)]="date">
+              </div>
+              <div class="col-md-6">
+                <label class="credit-card-label">CVV</label>
+                <input name="cvv" type="text" required minlength="3" class="form-control credit-inputs" placeholder="342"
+                  [(ngModel)]="cvv">
+              </div>
             </div>
             <hr class="line">
             <!-- <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$3000.00</span></div>
                         <div class="d-flex justify-content-between information"><span>Shipping</span><span>$20.00</span></div> -->
-            <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>{{ cartTotalPrice
+            <div class="d-flex justify-content-between information"><span>Total</span><span>{{ cartTotalPrice
                 }}€</span>
-            </div><button class="btn btn-primary btn-block d-flex justify-content-between mt-3"
-              type="button"><span>{{ cartTotalPrice }}€</span><span>Checkout<i class="fa fa-long-arrow-right ml-1"></i></span></button>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block d-flex justify-content-between mt-3"
+              [disabled]="paymentForm.invalid" type="button">
+              <span class="me-2">{{ cartTotalPrice }}€</span>
+              <span>Complete order <i class="fa fa-long-arrow-right ml-1"></i></span>
+            </button>
+            </form>
           </div>
         </div>
         </div>

@@ -23,4 +23,10 @@ export class AuthService {
   login(authPayload: any): Observable<Auth> {
     return this.httpClient.post<Auth>(`${this.baseUrl}/users/auth`, authPayload, options)
   }
+
+  register(registerPayload: any): Observable<any> {
+    // FIX THE CORS PROBLEM
+    // this.http.post('http://www.storefront-api.xyz:3030/users', this.form.getRawValue(), options) 
+    return this.httpClient.post(`${this.baseUrl}/users`, registerPayload, options)
+  }
 }

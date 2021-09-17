@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/api/auth/auth.service';
 
 @Component({
   selector: 'app-register-view',
@@ -14,7 +15,8 @@ export class RegisterViewComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, 
     private http: HttpClient,
-    private router: Router 
+    private router: Router,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -27,16 +29,9 @@ export class RegisterViewComponent implements OnInit {
   }
 
   submitRegister(): void {
-    // console.log(this.form.getRawValue())
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    let options = { headers: headers };
-
-    // FIX THE CORS PROBLEM
-    // this.http.post('http://www.storefront-api.xyz:3030/users', this.form.getRawValue(), options) 
-    this.http.post('http://localhost:3030/users', this.form.getRawValue(), options)
+    this.authService.register(this.form.getRawValue())
       .subscribe(res => {
+        console.log('Register res: ', res)
         this.router.navigate(['/login'])
       })
   }

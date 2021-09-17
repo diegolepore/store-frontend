@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/api/cart/cart.service';
+import { OrdersService } from '../services/api/orders/orders.service';
 import { Auth } from '../models/Auth';
+import { Router } from '@angular/router';
 
 // Store
 import { Store, select } from '@ngrx/store';
@@ -15,11 +17,19 @@ export class CartViewComponent implements OnInit {
   cartTotalPrice: number = 0
   authState$!: Observable<Auth>
   access_token: string = ''
+  nameOnCard: string = ''
+  cardNumber: string = ''
+  date: string = ''
+  cvv: string = ''
+  
 
   constructor(
+    private router: Router,
     private cartService: CartService,
+    private ordersService: OrdersService,
     private store: Store<{ authState: Auth}>
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
     this.authState$ = this.store.pipe(select('authState'))
@@ -32,6 +42,7 @@ export class CartViewComponent implements OnInit {
     this.cartService.currentOrderByUser(this.access_token).subscribe((res) => {
       this.cartArr = res
       this.getCartTotalPrice()
+      console.log(res)
     })
   }
 
@@ -49,6 +60,12 @@ export class CartViewComponent implements OnInit {
 
     this.cartService.deleteProductFromCart(order_id, product_id, this.access_token).subscribe((res) => {
       this.getProductsInOrder()
+    })
+  }
+
+  completeOrder(): void {
+    this.ordersService.changeOrderStatus(this.cartArr[0].order_id, 'complete').subscribe((res) => {
+      this.router.navigate(['/success-order'])
     })
   }
 
