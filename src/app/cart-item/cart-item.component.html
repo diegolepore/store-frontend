@@ -20,7 +20,9 @@
       </form>
     </div>
 
-    <span class="d-block me-3 font-weight-bold">{{ product.price }}€</span>
+    <span class="d-block me-3 font-weight-bold">
+      {{ itemTotalPrice }}€ <small *ngIf="product.quantity > 1"> (unit {{ product.price }}€)</small>
+    </span>
     <i class="fa fa-trash-o ml-3 text-black-50 cursor-pointer" (click)="deleteElementFromCart()"></i>
   </div>
 </div>

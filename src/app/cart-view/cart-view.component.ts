@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class CartViewComponent implements OnInit {
   cartArr: any = []
+  cartTotalPrice: number = 0
   authState$!: Observable<Auth>
   access_token: string = ''
 
@@ -27,10 +28,19 @@ export class CartViewComponent implements OnInit {
     this.getProductsInOrder()
   }
 
-  getProductsInOrder() {
+  getProductsInOrder(): void {
     this.cartService.currentOrderByUser(this.access_token).subscribe((res) => {
       this.cartArr = res
+      this.getCartTotalPrice()
     })
+  }
+
+  getCartTotalPrice(): void {
+    const prices = this.cartArr.map((product: any) => {
+      return product.price * product.quantity
+    })
+    
+    this.cartTotalPrice = prices.reduce((partial_sum: number, a: number) => partial_sum + a, 0);
   }
 
   deleteProductFromCart(payload: any): void {
@@ -42,8 +52,7 @@ export class CartViewComponent implements OnInit {
     })
   }
 
-  productsQuantity() {
+  productsQuantity(): void {
     return this.cartArr.length
   }
-
 }

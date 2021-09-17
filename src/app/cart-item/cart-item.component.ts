@@ -11,6 +11,8 @@ import { CartService } from '../services/api/cart/cart.service';
 export class CartItemComponent implements OnInit {
   @Input() product: CartProduct;
   @Output() deleteCartItem: EventEmitter<any> = new EventEmitter();
+  @Output() totalPrice: EventEmitter<any> = new EventEmitter();
+  itemTotalPrice: number = 0
 
 
   constructor(private cartService: CartService,) {
@@ -27,8 +29,11 @@ export class CartItemComponent implements OnInit {
   
   ngOnInit(): void {
     console.log(this.product)
-  }
 
+    this.itemTotalPrice = this.product.quantity * this.product.price
+
+  }
+  
   deleteElementFromCart() {
     this.deleteCartItem.emit({order_id: this.product.order_id, product_id: this.product.product_id})
   }
@@ -38,7 +43,8 @@ export class CartItemComponent implements OnInit {
       this.product.quantity = --this.product.quantity
 
       this.cartService.changeProductQuantity(this.product.product_id, this.product.quantity).subscribe((res) => {
-        console.log(res)
+        this.itemTotalPrice = this.product.quantity * this.product.price
+        this.totalPrice.emit()
       })
     }
   }
@@ -47,7 +53,8 @@ export class CartItemComponent implements OnInit {
     this.product.quantity = ++this.product.quantity
     
     this.cartService.changeProductQuantity(this.product.product_id, this.product.quantity).subscribe((res) => {
-      console.log(res)
+      this.itemTotalPrice = this.product.quantity * this.product.price
+      this.totalPrice.emit()
     })
   }
 
