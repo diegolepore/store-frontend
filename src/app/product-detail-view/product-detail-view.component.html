@@ -41,20 +41,24 @@
               <tr>
                 <td class="pl-0">
                   <div class="def-number-input number-input safari_only mb-0">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">
-                      <span class="minus-icon"></span>
-                    </button>
-                    <input class="quantity" min="1" name="quantity" value="1" type="number">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
-                      <span class="plus-icon"></span>
-                    </button>
+                    <form #form="ngForm">
+                      <button type="button" (click)="stepDown()" class="minus">
+                        <span class="minus-icon"></span>
+                      </button>
+                      <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="quantity"
+                        #productQuantity="ngModel">
+                      <button type="button" (click)="stepUp()" class="plus">
+                        <span class="plus-icon"></span>
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>
+        <button type="button" class="btn btn-light btn-md mr-1 mb-2" (click)="addToCart()"><i
+            class="fas fa-shopping-cart pr-2"></i>
           Add to cart
         </button>
         </div>

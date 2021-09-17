@@ -31,9 +31,7 @@ export class CommonGuardService implements CanActivate {
   ) {}
 
   getAuthUser(access_token: string): void {
-    const decoded = (jwt_decode(access_token) as unknown) as any;
-
-    this.userService.getAuthUser(decoded.user.id, access_token).subscribe((res) => {
+    this.userService.getAuthUser().subscribe((res) => {
       this.store.dispatch(userActions.setUser({ user: res }))
     })
   }

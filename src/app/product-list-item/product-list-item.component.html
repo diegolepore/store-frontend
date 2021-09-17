@@ -11,10 +11,6 @@
       <a routerLink="/product/{{ product.id }}">
         <p> {{ product.name }} </p>
       </a>
-
-      <!-- <h5 class="card-title">
-        {{ product.description }}
-      </h5> -->
       <hr>
       
     <div *ngIf="access_token">
@@ -44,7 +40,7 @@
         </table>
       </div>
       
-      <div class="text-center my-4"> <a href="#" class="btn btn-warning" (click)="addToCart(product)">Add to cart</a> </div>
+      <div class="text-center my-4"> <a href="#" class="btn btn-warning" (click)="addToCart()">Add to cart</a> </div>
     </div>
     </div>
   </div>

@@ -16,6 +16,8 @@ export class CartService {
   baseUrl: string
   authState$!: Observable<Auth>
   access_token: string = ''
+  headers!: HttpHeaders
+  options!: { headers: HttpHeaders }
 
   constructor(
     private httpClient: HttpClient,
@@ -23,44 +25,32 @@ export class CartService {
   ) {
     this.baseUrl = 'http://localhost:3030'
     this.authState$ = this.store.pipe(select('authState'))
-    this.authState$.subscribe((res) => this.access_token = res.access_token)
+    this.authState$.subscribe((res) => {
+      this.access_token = res.access_token
+
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.access_token}`
+      });
+      
+      this.options = { headers: this.headers };
+    })
   }
 
-  addToCart(cartPayload: any, accessToken: string): Observable<any> {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    });
-
-    let options = { headers: headers };
-    
+  addToCart(cartPayload: any): Observable<any> {    
     const { productId, quantity } = cartPayload
     
-    return this.httpClient.post(`${this.baseUrl}/add-to-cart`, { productId, quantity }, options)
+    return this.httpClient.post(`${this.baseUrl}/add-to-cart`, { productId, quantity }, this.options)
   }
   
-  currentOrderByUser(accessToken: string): Observable<any> {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    });
-    
-    let options = { headers: headers };
-    
-    return this.httpClient.get(`${this.baseUrl}/products-in-active-order`, options)
+  currentOrderByUser(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/products-in-active-order`, this.options)
   }
 
-  deleteProductFromCart(order_id: string, product_id: string, accessToken: string): Observable<any> {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    });
-    
-    let options = { headers: headers };
-
+  deleteProductFromCart(order_id: string, product_id: string): Observable<any> {
     return this.httpClient.delete(
       `${this.baseUrl}/delete-porduct-from-cart/order/${order_id}/product/${product_id}`, 
-      options
+      this.options
     )
   }
 

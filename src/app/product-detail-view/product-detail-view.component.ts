@@ -5,6 +5,7 @@ import { Auth } from '../models/Auth';
 
 // Services
 import { ProductsService } from '../services/api/products/products.service';
+import { CartService } from '../services/api/cart/cart.service';
 
 // Store
 import { Store, select } from '@ngrx/store';
@@ -15,17 +16,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./product-detail-view.component.scss']
 })
 export class ProductDetailViewComponent implements OnInit {
-  id: string
+  id: string = ''
   product!: Product
   authState$!: Observable<Auth>
+  quantity: number = 1
   access_token: string = ''
 
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
+    private cartService: CartService,
     private store: Store<{ authState: Auth}>
   ) {
-    this.id = ''
   }
 
   ngOnInit(): void {
@@ -42,5 +44,26 @@ export class ProductDetailViewComponent implements OnInit {
         console.log('Product res: ', res)
         this.product = res
       })
+  }
+
+  stepDown() {
+    if( this.quantity > 1 ) {
+      this.quantity = --this.quantity
+    }
+  }
+
+  stepUp() {
+    this.quantity = ++this.quantity
+  }
+
+  addToCart(): void {
+    const cartPayload = {
+      productId: this.product.id,
+      quantity: this.quantity
+    }
+
+    this.cartService.addToCart(cartPayload).subscribe((res) => {
+      console.log('ADD TO CART response: ', res)
+    })
   }
 }

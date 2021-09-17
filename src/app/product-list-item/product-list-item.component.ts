@@ -48,14 +48,13 @@ export class ProductListItemComponent implements OnInit {
     this.quantity = ++this.quantity
   }
 
-  addToCart(product: Product): void {
-    console.log(product, this.access_token)
+  addToCart(): void {
     const cartPayload = {
       productId: this.product.id,
       quantity: this.quantity
     }
 
-    this.cartService.addToCart(cartPayload, this.access_token).subscribe((res) => {
+    this.cartService.addToCart(cartPayload).subscribe((res) => {
       console.log('ADD TO CART response: ', res)
     })
   }

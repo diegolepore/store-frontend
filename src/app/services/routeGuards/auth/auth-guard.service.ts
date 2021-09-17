@@ -30,10 +30,8 @@ export class AuthGuardService implements CanActivate {
   ) {
   }
   
-  getAuthUser(access_token: string): void {
-    const decoded = (jwt_decode(access_token) as unknown) as any;
-
-    this.userService.getAuthUser(decoded.user.id, access_token).subscribe((res) => {
+  getAuthUser(): void {
+    this.userService.getAuthUser().subscribe((res) => {
       this.store.dispatch(userActions.setUser({ user: res }))
     })
   }
@@ -48,7 +46,7 @@ export class AuthGuardService implements CanActivate {
     if(!accessToken) {
       if(cookieToken) {
         this.store.dispatch(authActions.login({access_token: cookieToken}))
-        this.getAuthUser(cookieToken)
+        this.getAuthUser()
         console.log('🚧 has NO token in store, but has token in cookies', accessToken)
         return true
       } else {
