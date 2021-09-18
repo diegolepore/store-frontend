@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Auth } from '../../../models/Auth';
-import { Store, select } from '@ngrx/store';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Auth } from '../../../models/Auth'
+import { Store, select } from '@ngrx/store'
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class OrdersService {
 
   baseUrl: string
   authState$!: Observable<Auth>
-  access_token: string = ''
+  access_token = ''
   headers!: HttpHeaders
   options!: { headers: HttpHeaders }
 
@@ -27,13 +27,13 @@ export class OrdersService {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.access_token}`
-      });
+      })
       
-      this.options = { headers: this.headers };
+      this.options = { headers: this.headers }
     })
   }
 
-  changeOrderStatus(orderId: string, status: string): Observable<any> {    
+  changeOrderStatus(orderId: number, status: string): Observable<unknown> {    
     return this.httpClient.put(`${this.baseUrl}/orders/${orderId}`, { status }, this.options)
   }
 }

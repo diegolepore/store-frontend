@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
@@ -21,11 +21,11 @@ export class AppComponent {
     this.message$ = this.store.select('message')
   }
 
-  spanishMessage() {
+  spanishMessage(): void {
     this.store.dispatch({ type: 'SPANISH' })
   }
 
-  frenchMessage() {
+  frenchMessage(): void {
     this.store.dispatch({ type: 'FRENCH' })
   }
 }

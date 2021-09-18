@@ -1,9 +1,14 @@
-import { Action, createReducer, on } from "@ngrx/store";
+import { Action, createReducer, on } from '@ngrx/store'
 import * as actions from './user.actions'
-import { User } from "src/app/models/User";
+import { User } from 'src/app/models/User'
 
-export const defaultState = {
-  user: {}
+export const defaultState: { user: User } = {
+  user: {
+    id: 0,
+    first_name: '',
+    last_name: '',
+    email: ''
+  }
 }
 
 export const userState = { ...defaultState }
@@ -11,9 +16,10 @@ export const userState = { ...defaultState }
 const _userReducer = createReducer(
   userState,
   on(actions.setUser, (state, { user }) =>  Object.assign({}, state, { user })),
-  on(actions.clearUserState, (state) =>  Object.assign({}, defaultState))
+  on(actions.clearUserState, () =>  Object.assign({}, defaultState))
 )
 
-export function userReducer(state: { user: any} | undefined, action: Action) {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function userReducer(state: { user: User } | undefined, action: Action) {
   return _userReducer(state, action)
 }

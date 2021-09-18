@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Product } from '../../../models/Product';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { Product } from '../../../models/Product'
+import { Observable } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,9 @@ export class ProductsService {
     this.baseUrl = 'http://www.storefront-api.xyz:3030'
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json'
-    });
+    })
 
-    this.options = { headers: this.headers };
+    this.options = { headers: this.headers }
   }
 
   getProductsList(): Observable<Product[]> {

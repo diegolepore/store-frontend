@@ -1,19 +1,14 @@
-import { Injectable } from '@angular/core';
-// AuthGuard Service
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import jwt_decode from "jwt-decode";
-
-import { Observable } from 'rxjs';
-
-import { Auth } from 'src/app/models/Auth';
+import { Injectable } from '@angular/core'
+import {CanActivate, Router} from '@angular/router'
+import { CookieService } from 'ngx-cookie-service'
+import { Observable } from 'rxjs'
+import { Auth } from 'src/app/models/Auth'
+import { UserService } from '../../api/user/user.service'
 
 // Store
-import { Store, select } from '@ngrx/store';
+import { Store, select } from '@ngrx/store'
 import * as authActions from '../../../store/auth/auth.actions'
 import * as userActions from '../../../store/user/user.actions'
-
-import { UserService } from '../../api/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +21,7 @@ export class AuthGuardService implements CanActivate {
     private router: Router, 
     private cookieService: CookieService,
     private userService: UserService,
-    private store: Store<{ authState: Auth, userState: any }>
+    private store: Store<{ authState: Auth }> 
   ) {
   }
   
@@ -36,7 +31,7 @@ export class AuthGuardService implements CanActivate {
     })
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     this.authState$ = this.store.pipe(select('authState'))
     const cookieToken = this.cookieService.get('token')
     let accessToken = ''
@@ -47,17 +42,16 @@ export class AuthGuardService implements CanActivate {
       if(cookieToken) {
         this.store.dispatch(authActions.login({access_token: cookieToken}))
         this.getAuthUser()
-        console.log('🚧 has NO token in store, but has token in cookies', accessToken)
+        // console.log('🚧 has NO token in store, but has token in cookies', accessToken)
         return true
       } else {
-        console.log('🚧 has NO token neither in store nor in cookies', accessToken)
+        // console.log('🚧 has NO token neither in store nor in cookies', accessToken)
         this.router.navigate(['/login'])
         return false
       }
     }
 
-    
-    console.log('🚧 has token in store', accessToken)
+    // console.log('🚧 has token in store', accessToken)
     return true   
   }
 }

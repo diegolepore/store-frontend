@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Auth } from '../../../models/Auth';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { Auth } from '../../../models/Auth'
+import { Observable } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-let headers = new HttpHeaders({
+const headers = new HttpHeaders({
   'Content-Type': 'application/json'
-});
+})
 
-let options = { headers: headers };
+const options = { headers: headers }
+
+type Login = { email: string, pass: string }
+type Register = { first_name: string, last_name: string, email: string, pass: string }
+type RegisterResponse = { id: number, first_name: string, last_name: string, email: string }
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +24,11 @@ export class AuthService {
     this.baseUrl = 'http://www.storefront-api.xyz:3030'
   }
 
-  login(authPayload: any): Observable<Auth> {
+  login(authPayload: Login): Observable<Auth> {
     return this.httpClient.post<Auth>(`${this.baseUrl}/users/auth`, authPayload, options)
   }
 
-  register(registerPayload: any): Observable<any> {
-    // FIX THE CORS PROBLEM
-    // this.http.post('http://www.storefront-api.xyz:3030/users', this.form.getRawValue(), options) 
+  register(registerPayload: Register): Observable<RegisterResponse | unknown> {
     return this.httpClient.post(`${this.baseUrl}/users`, registerPayload, options)
   }
 }

@@ -1,19 +1,16 @@
-import { Injectable } from '@angular/core';
-// AuthGuard Service
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationEnd} from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import jwt_decode from "jwt-decode";
-
-import { Observable } from 'rxjs';
-
-import { Auth } from 'src/app/models/Auth';
+import { Injectable } from '@angular/core'
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router'
+import { CookieService } from 'ngx-cookie-service'
+import { Observable } from 'rxjs'
+import { Auth } from 'src/app/models/Auth'
+import { User } from 'src/app/models/User'
+import { UserService } from '../../api/user/user.service'
 
 // Store
-import { Store, select } from '@ngrx/store';
+import { Store, select } from '@ngrx/store'
 import * as authActions from '../../../store/auth/auth.actions'
 import * as userActions from '../../../store/user/user.actions'
 
-import { UserService } from '../../api/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,16 +18,16 @@ import { UserService } from '../../api/user/user.service';
 export class CommonGuardService implements CanActivate {
 
   authState$!: Observable<Auth>
-  userState$!: Observable<{}>
+  userState$!: Observable<User>
 
   constructor(
     private router: Router, 
     private cookieService: CookieService,
     private userService: UserService,
-    private store: Store<{ authState: Auth, userState: any }>
+    private store: Store<{ authState: Auth, userState: User }>
   ) {}
 
-  getAuthUser(access_token: string): void {
+  getAuthUser(): void {
     this.userService.getAuthUser().subscribe((res) => {
       this.store.dispatch(userActions.setUser({ user: res }))
     })
@@ -46,16 +43,16 @@ export class CommonGuardService implements CanActivate {
 
     if(!accessToken) {
       if(cookieToken) {
-        if(state.url === '/login' || state.url === "/register") {
+        if(state.url === '/login' || state.url === '/register') {
           this.router.navigate([this.router.url])
           return false
         }
         this.store.dispatch(authActions.login({access_token: cookieToken}))
-        this.getAuthUser(cookieToken)
+        this.getAuthUser()
         return true
       }
     } else {
-        if(state.url === '/login' || state.url === "/register") {
+        if(state.url === '/login' || state.url === '/register') {
           this.router.navigate([this.router.url])
           return false
         }
