@@ -69,8 +69,4 @@ export class ProductListItemComponent implements OnInit {
       this.store.dispatch(cartActions.setProductsInCart({cart: res}))
     })
   }
-
-  changeQuantity(event: number): void {
-    console.log(event)
-  }
 }
