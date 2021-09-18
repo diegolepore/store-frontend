@@ -18,14 +18,13 @@
           <form #form="ngForm">
             <button type="button" (click)="stepDown()" class="minus">
               <i class="fa fa-minus"></i>
-              </button>
-              <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="quantity"
-                #productQuantity="ngModel">
-              <button type="button" (click)="stepUp()" class="plus">
+            </button>
+            <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="quantity">
+            <button type="button" (click)="stepUp()" class="plus">
               <i class="fa fa-plus"></i>
-              </button>
-              </form>
-              </div>
+            </button>
+            </form>
+            </div>
       </div>
       
       <div class="text-center my-4">
