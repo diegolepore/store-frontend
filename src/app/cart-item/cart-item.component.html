@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+<div class="d-flex justify-content-between align-items-center p-3 items rounded border-bottom">
   <div class="d-flex flex-row">
     <img class="rounded me-4" src="{{ product.image_url }}" width="40">
     <div class="ml-2">
@@ -10,12 +10,12 @@
     <div class="def-number-input number-input safari_only mb-0 me-3">
       <form #form="ngForm">
         <button type="button" (click)="stepDown()" class="minus">
-          <span class="minus-icon"></span>
+          <i class="fa fa-minus"></i>
         </button>
         <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="product.quantity"
           #productQuantity="ngModel">
         <button type="button" (click)="stepUp()" class="plus">
-          <span class="plus-icon"></span>
+          <i class="fa fa-plus"></i>
         </button>
       </form>
     </div>

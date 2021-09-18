@@ -1,7 +1,16 @@
-<p>product-detail-view works!</p>
-<p>Product id: {{ id }}</p>
-<!--Section: Block Content-->
-<section *ngIf="product" class="mb-5">
+<section *ngIf="product" class="my-5">
+  <div *ngIf="showAddToCartAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+    Your product has been successfully added to the cart!
+    <a routerLink="/cart">
+      Go to cart
+    </a>
+    <button type="button" class="btn-close" (click)="showAddToCartAlert = false" aria-label="Close"></button>
+  </div>
+  
+  <div *ngIf="productAlreadyInCartMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ productAlreadyInCartMessage }}
+    <button type="button" class="btn-close" (click)="productAlreadyInCartMessage = ''" aria-label="Close"></button>
+  </div>
 
   <div class="row">
     <div class="col-md-6 mb-4 mb-md-0">
@@ -14,7 +23,7 @@
 
           <div class="col-12 mb-0">
             <figure class="d-flex justify-content-center view overlay rounded z-depth-1 main-img">
-              <img src="{{ product.image_url }}" width="100%" class="ma-auto img-fluid z-depth-1">
+              <img src="{{ product.image_url }}" width="100%" class="product_image ma-auto img-fluid z-depth-1">
             </figure>
           </div>
         </div>
@@ -43,12 +52,12 @@
                   <div class="def-number-input number-input safari_only mb-0">
                     <form #form="ngForm">
                       <button type="button" (click)="stepDown()" class="minus">
-                        <span class="minus-icon"></span>
+                        <i class="fa fa-minus"></i>
                       </button>
                       <input class="quantity" min="1" name="quantity" value="1" type="number" readonly [(ngModel)]="quantity"
                         #productQuantity="ngModel">
                       <button type="button" (click)="stepUp()" class="plus">
-                        <span class="plus-icon"></span>
+                        <i class="fa fa-plus"></i>
                       </button>
                     </form>
                   </div>
@@ -57,8 +66,8 @@
             </tbody>
           </table>
         </div>
-        <button type="button" class="btn btn-light btn-md mr-1 mb-2" (click)="addToCart()"><i
-            class="fas fa-shopping-cart pr-2"></i>
+        <button type="button" class="w-100 btn btn-lg btn-primary" (click)="addToCart()">
+          <i class="fa fa-shopping-cart me-2"></i>
           Add to cart
         </button>
         </div>
@@ -69,5 +78,8 @@
 <!--Section: Block Content-->
 
 <style lang="scss">
-  
+.product_image {
+  object-fit: contain;
+  height: 400px;
+}
 </style>

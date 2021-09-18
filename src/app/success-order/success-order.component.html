@@ -2,14 +2,17 @@
   <div class="row">
     <div class="col-md-6 mx-auto mt-5">
       <div class="payment">
-        <div class="payment_header">
-          <div class="check"><i class="fa fa-check" aria-hidden="true"></i></div>
+        <div class="payment_header bg-success">
+          <div class="check"><i class="fa fa-check text-success" aria-hidden="true"></i></div>
         </div>
         <div class="content">
-          <h1>Payment Success !</h1>
-          <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web
-            designs. </p>
-          <a routerLink="/">Continue shopping</a>
+          <h1>Payment Success! 🎉 </h1>
+          <p class="my-4">You'll receive an email with the invoice and the tracking information. If you have any question just let
+            us know and we'll be more than happy to help you!</p>
+          <a routerLink="/" class="btn btn-primary text-decoration-none text-white">
+            <i class="fa fa-arrow-left me-2"></i>
+            Continue shopping
+          </a>
         </div>
 
       </div>
@@ -20,15 +23,15 @@
 <style lang="scss">
   .payment {
     border: 1px solid #f2f2f2;
-    height: 280px;
-    border-radius: 20px;
+    height: auto;
+    padding-bottom: 30px;
+    border-radius: 0.25rem;
     background: #fff;
   }
 
   .payment_header {
-    background: rgba(255, 102, 0, 1);
     padding: 20px;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 0.25rem 0.25rem 0px 0px;
 
   }
 
@@ -55,20 +58,5 @@
   .content h1 {
     font-size: 25px;
     padding-top: 25px;
-  }
-
-  .content a {
-    width: 200px;
-    height: 35px;
-    color: #fff;
-    border-radius: 30px;
-    padding: 5px 10px;
-    background: rgba(255, 102, 0, 1);
-    transition: all ease-in-out 0.3s;
-  }
-
-  .content a:hover {
-    text-decoration: none;
-    background: #000;
   }
 </style>

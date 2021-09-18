@@ -1,6 +1,9 @@
 <main class="form-signin text-center">
-  <form #loginForm="ngForm" [formGroup]="form" (submit)="submitLogin()">
-    <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+  <form #loginForm="ngForm" [formGroup]="form" (submit)="submitLogin()" class="mt-5">
+    <h1 class="h3 mb-3 fw-normal">
+      <i class="fa fa-lock"></i>
+      Sign in
+    </h1>
 
     <div class="form-floating">
       <input name="email" formControlName="email" type="email" class="form-control" placeholder="name@example.com" required>

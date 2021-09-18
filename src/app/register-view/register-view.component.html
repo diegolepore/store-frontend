@@ -1,8 +1,9 @@
 <main class="form-signin text-center">
-  <form #registerForm="ngForm" [formGroup]="form" (submit)="submitRegister()">
-    <img class="mb-4" src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-374-456326-1024.png" alt=""
-      width="128" height="128">
-    <h1 class="h3 mb-3 fw-normal">Sign up</h1>
+  <form #registerForm="ngForm" [formGroup]="form" (submit)="submitRegister()" class="mt-5">
+    <h1 class="h3 mb-3 fw-normal">
+      <i class="fa fa-user"></i>
+      Sign up
+    </h1>
 
     <div class="form-floating">
       <input formControlName="first_name" type="text" class="form-control" placeholder="First name" required>
@@ -14,7 +15,7 @@
     </div>
     <div class="form-floating">
       <input formControlName="email" type="email" class="form-control" placeholder="name@example.com" required>
-      <label for="floatingInput">Email address</label>
+      <label for="floatingInput">Email</label>
     </div>
     <div class="form-floating">
       <input formControlName="pass" type="password" class="form-control" placeholder="Password" required>

@@ -1,39 +1,60 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Store logo</a>
-    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fa fa-building-o me-1"></i>
+      Store Front
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+      aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button> -->
-    <!-- <div class="collapse navbar-collapse" id="navbarCollapse"> -->
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/">Products</a>
+          <a class="nav-link active" routerLink="/">
+            <i class="fa fa-list me-1"></i>
+            Products
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/cart">Cart</a>
+          <a class="nav-link active" routerLink="/cart">
+            <i class="fa fa-shopping-cart me-1"></i>
+            Cart
+          </a>
         </li>
       </ul>
       <ul *ngIf="user.email; else notLoggedIn" class="navbar-nav mb-2 mb-md-0">
-        <li class="nav-item text-white">
-          <div class="nav-link">{{ user.first_name }} {{ user.last_name }}</div>
+        <li class="nav-item text-white me-4">
+          <div class="nav-link">
+            <i class="fa fa-user me-1"></i>
+            {{ user.first_name }} {{ user.last_name }}
+          </div>
         </li>
         <li class="nav-item">
           <span class="nav-liink">
-            <button (click)="logOut()" class="btn btn-light">Logout</button>
+            <button (click)="logOut()" class="btn btn-light">
+              <i class="fa fa-power-off me-1"></i>
+              Logout
+            </button>
           </span>
         </li>
       </ul>
       <ng-template #notLoggedIn>
         <ul class="navbar-nav mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Login</a>
+            <a class="nav-link active" routerLink="/login">
+              <i class="fa fa-lock me-1"></i>
+              Login
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/register">Register</a>
+            <a class="nav-link active" routerLink="/register">
+              <i class="fa fa-user me-1"></i>
+              Register
+            </a>
           </li>
         </ul>
       </ng-template>
-      <!-- </div> -->
+    </div>
   </div>
 </nav>

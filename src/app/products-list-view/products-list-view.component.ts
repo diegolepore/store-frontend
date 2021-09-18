@@ -17,6 +17,8 @@ import * as productsActions from '../store/products/products.actions'
 export class ProductsListViewComponent implements OnInit {
   productsState$!: Observable<{ products: Product[] }>;
   products!: Product[]
+  showAddToCartAlert: boolean = false;
+  productAlreadyInCartMessage: string = '';
 
   constructor(
     private productsService: ProductsService,
@@ -27,19 +29,29 @@ export class ProductsListViewComponent implements OnInit {
     this.getProducts()
   }
 
-    getProducts(): void {
-      this.productsService.getProductsList()
-        .subscribe((res) => {
-          console.log('Products res: ', res)
-          this.store.dispatch(productsActions.setProducts({products: res}))
-          this.productsState$ = this.store.pipe(select('productsState'))
-          this.productsState$.subscribe((res) => this.products = res.products )
-        })
-    }
+  getProducts(): void {
+    this.productsService.getProductsList()
+      .subscribe((res) => {
+        console.log('Products res: ', res)
+        this.store.dispatch(productsActions.setProducts({products: res}))
+        this.productsState$ = this.store.pipe(select('productsState'))
+        this.productsState$.subscribe((res) => this.products = res.products )
+      })
+  }
 
-    productsList() {
-      console.log('this.productsState$', this.productsState$)
-      return this.productsState$
-    }
+  productsList() {
+    console.log('this.productsState$', this.productsState$)
+    return this.productsState$
+  }
 
+  productAddedToCart(event: any) {
+    const { res } = event
+    if(!(typeof res.id === 'undefined')) {
+      this.showAddToCartAlert = true
+      this.productAlreadyInCartMessage = ''
+    } else {
+      this.showAddToCartAlert = false
+      this.productAlreadyInCartMessage = res.message
+    }
+  }
 }

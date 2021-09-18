@@ -3,16 +3,15 @@
     <div class="col-md-8">
       <div class="product-details mr-2">
         <div class="d-flex flex-row align-items-center">
-          <a routerLink="/">
-            <span class="fa fa-long-arrow-left me-2"></span>
+          <a routerLink="/" class="text-decoration-none">
+            <i class="fa fa-arrow-left me-2"></i>
             <span>
               Continue Shopping
             </span>
           </a>
         </div>
-        <hr>
-        <h6 class="mb-0">Shopping cart</h6>
-        <div class="d-flex justify-content-between">
+        <h6 class="mb-0 mt-3 pt-3 border-top">Shopping cart</h6>
+        <div class="d-flex justify-content-between pb-3 border-bottom">
           <span>You have {{ productsQuantity() }} items in your cart</span>
         </div>
 
@@ -56,7 +55,7 @@
                 }}€</span>
             </div>
             <button type="submit" class="btn btn-primary btn-block d-flex justify-content-between mt-3"
-              [disabled]="paymentForm.invalid" type="button">
+              [disabled]="paymentForm.invalid">
               <span class="me-2">{{ cartTotalPrice }}€</span>
               <span>Complete order <i class="fa fa-long-arrow-right ml-1"></i></span>
             </button>

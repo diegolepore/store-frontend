@@ -1,6 +1,21 @@
 <div class="container-fluid bg-trasparent my-5 p-3" style="position: relative;">
+<div *ngIf="showAddToCartAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+  Your product has been successfully added to the cart!
+  <a routerLink="/cart">
+    Go to cart
+  </a>
+  <button type="button" class="btn-close" (click)="showAddToCartAlert = false" aria-label="Close"></button>
+</div>
+
+<div *ngIf="productAlreadyInCartMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ productAlreadyInCartMessage }}
+  <button type="button" class="btn-close" (click)="productAlreadyInCartMessage = ''" aria-label="Close"></button>
+</div>
+
   <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-    <app-product-list-item *ngFor="let product of products" [product]="product"></app-product-list-item>
+    <app-product-list-item (productAddedToCart)="productAddedToCart($event)" *ngFor="let product of products"
+      [product]="product">
+    </app-product-list-item>
     </div>
 </div>
 

@@ -53,6 +53,7 @@ export class CartViewComponent implements OnInit {
   }
 
   completeOrder(): void {
+    console.log('hey')
     this.ordersService.changeOrderStatus(this.cartArr[0].order_id, 'complete').subscribe(() => {
       this.router.navigate(['/success-order'])
     })

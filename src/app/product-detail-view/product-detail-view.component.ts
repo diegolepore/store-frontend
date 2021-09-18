@@ -21,6 +21,8 @@ export class ProductDetailViewComponent implements OnInit {
   authState$!: Observable<Auth>
   quantity: number = 1
   access_token: string = ''
+  showAddToCartAlert: boolean = false;
+  productAlreadyInCartMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +65,17 @@ export class ProductDetailViewComponent implements OnInit {
     }
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
-      console.log('ADD TO CART response: ', res)
+      this.productAddedToCart(res)
     })
+  }
+
+  productAddedToCart(res: any) {
+    if(!(typeof res.id === 'undefined')) {
+      this.showAddToCartAlert = true
+      this.productAlreadyInCartMessage = ''
+    } else {
+      this.showAddToCartAlert = false
+      this.productAlreadyInCartMessage = res.message
+    }
   }
 }

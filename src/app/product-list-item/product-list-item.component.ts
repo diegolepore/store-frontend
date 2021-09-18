@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '../models/Product';
 import { CartService } from '../services/api/cart/cart.service';
 import { Auth } from '../models/Auth';
@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductListItemComponent implements OnInit {
   @Input() product: Product;
+  @Output() productAddedToCart: EventEmitter<any> = new EventEmitter();
   authState$!: Observable<Auth>
   quantity: number = 0
   access_token: string = ''
@@ -55,7 +56,7 @@ export class ProductListItemComponent implements OnInit {
     }
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
-      console.log('ADD TO CART response: ', res)
+      this.productAddedToCart.emit({ res })
     })
   }
 }
