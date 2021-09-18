@@ -10,6 +10,7 @@ import { CartService } from '../services/api/cart/cart.service';
 // Store
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as cartActions from '../store/cart/cart.actions'
 @Component({
   selector: 'app-product-detail-view',
   templateUrl: './product-detail-view.component.html',
@@ -38,6 +39,7 @@ export class ProductDetailViewComponent implements OnInit {
     this.authState$.subscribe((res) => this.access_token = res.access_token)
 
     this.getProduct(this.id)
+    this.getProductsInOrder()
   }
 
   getProduct(id: string): void {
@@ -66,6 +68,7 @@ export class ProductDetailViewComponent implements OnInit {
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
       this.productAddedToCart(res)
+      this.getProductsInOrder()
     })
   }
 
@@ -77,5 +80,11 @@ export class ProductDetailViewComponent implements OnInit {
       this.showAddToCartAlert = false
       this.productAlreadyInCartMessage = res.message
     }
+  }
+
+  getProductsInOrder(): void {
+    this.cartService.currentOrderByUser().subscribe((res) => {
+      this.store.dispatch(cartActions.setProductsInCart({cart: res}))
+    })
   }
 }

@@ -18,6 +18,7 @@ import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth/auth.reducer'
 import { productsReducer } from './store/products/products.reducer'
 import { userReducer } from './store/user/user.reducer';
+import { cartReducer } from './store/cart/cart.reducer';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { SuccessOrderComponent } from './success-order/success-order.component'
@@ -47,7 +48,8 @@ import { SuccessOrderComponent } from './success-order/success-order.component'
       { 
         authState: authReducer,
         productsState: productsReducer,
-        userState: userReducer
+        userState: userReducer,
+        cartState: cartReducer
       },
     )
   ],

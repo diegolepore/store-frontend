@@ -21,7 +21,7 @@ export class UserService {
     private httpClient: HttpClient,
     private store: Store<{ authState: Auth}>
   ) {
-    this.baseUrl = 'http://localhost:3030'
+    this.baseUrl = 'http://www.storefront-api.xyz:3030'
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => { 
       this.access_token = res.access_token 

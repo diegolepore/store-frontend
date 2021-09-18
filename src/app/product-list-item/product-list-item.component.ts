@@ -6,6 +6,7 @@ import { Auth } from '../models/Auth';
 // Store
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as cartActions from '../store/cart/cart.actions'
 @Component({
   selector: 'app-product-list-item',
   templateUrl: './product-list-item.component.html',
@@ -37,6 +38,7 @@ export class ProductListItemComponent implements OnInit {
   ngOnInit(): void {
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => this.access_token = res.access_token )
+    this.getProductsInOrder()
   }
 
   stepDown() {
@@ -57,6 +59,18 @@ export class ProductListItemComponent implements OnInit {
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
       this.productAddedToCart.emit({ res })
+      this.getProductsInOrder()
+      this.scrollToTop()
     })
+  }
+
+  getProductsInOrder(): void {
+    this.cartService.currentOrderByUser().subscribe((res) => {
+      this.store.dispatch(cartActions.setProductsInCart({cart: res}))
+    })
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0)
   }
 }

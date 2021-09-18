@@ -3,6 +3,10 @@ import { CartService } from '../services/api/cart/cart.service';
 import { OrdersService } from '../services/api/orders/orders.service';
 import { Router } from '@angular/router';
 
+// Store
+import { Store } from '@ngrx/store';
+import * as cartActions from '../store/cart/cart.actions'
+
 @Component({
   selector: 'app-cart-view',
   templateUrl: './cart-view.component.html',
@@ -21,6 +25,7 @@ export class CartViewComponent implements OnInit {
     private router: Router,
     private cartService: CartService,
     private ordersService: OrdersService,
+    private store: Store
   ) { 
   }
 
@@ -31,8 +36,9 @@ export class CartViewComponent implements OnInit {
   getProductsInOrder(): void {
     this.cartService.currentOrderByUser().subscribe((res) => {
       this.cartArr = res
+      this.store.dispatch(cartActions.setProductsInCart({cart: res}))
       this.getCartTotalPrice()
-      console.log(res)
+      console.log('currentOrderByUser', res)
     })
   }
 

@@ -35,7 +35,7 @@
 
       <h5>{{ product.name }}</h5>
       <p class="mb-2 text-muted text-uppercase small">{{ product.category }}</p>
-      <!-- <p><span class="mr-1"><strong>{{ (product$ | async).price }}</strong></span></p> -->
+      <p><span class="mr-1"><strong>{{ product.price }}€</strong></span></p>
       <p class="pt-1">
         {{ product.description }}
       </p>
@@ -71,6 +71,12 @@
           Add to cart
         </button>
         </div>
+<div *ngIf="!access_token">
+  <a routerLink="/login" class="btn btn-success">
+    <i class="fa fa-lock me-1"></i>
+    Login in order to buy this item
+  </a>
+</div>
     </div>
   </div>
 

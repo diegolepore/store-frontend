@@ -17,7 +17,7 @@ export class AuthService {
   baseUrl: string
 
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://localhost:3030'
+    this.baseUrl = 'http://www.storefront-api.xyz:3030'
   }
 
   login(authPayload: any): Observable<Auth> {
