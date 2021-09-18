@@ -58,7 +58,7 @@ export class ProductListItemComponent implements OnInit {
     }
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
-      this.productAddedToCart.emit({ res })
+      this.productAddedToCart.emit(res)
       this.getProductsInOrder()
       window.scrollTo(0, 0)
     })

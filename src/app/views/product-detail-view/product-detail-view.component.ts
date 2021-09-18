@@ -24,7 +24,8 @@ export class ProductDetailViewComponent implements OnInit {
   quantity = 1
   access_token = ''
   showAddToCartAlert = false;
-  productAlreadyInCartMessage = '';
+  productAlreadyInCartMessage: string | undefined = '';
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,9 +45,11 @@ export class ProductDetailViewComponent implements OnInit {
   }
 
   getProduct(id: string): void {
+    this.isLoading = true
     this.productsService.getProductById(id)
       .subscribe((res) => {
         this.product = res
+        this.isLoading = false
       })
   }
 
@@ -68,7 +71,7 @@ export class ProductDetailViewComponent implements OnInit {
 
     this.cartService.addToCart(cartPayload).subscribe((res) => {
       const response = res as CartProduct
-      
+
       this.productAddedToCart(response)
       this.getProductsInOrder()
     })

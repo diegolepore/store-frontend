@@ -19,7 +19,8 @@ export class ProductsListViewComponent implements OnInit {
   productsState$!: Observable<{ products: Product[] }>;
   products!: Product[]
   showAddToCartAlert = false;
-  productAlreadyInCartMessage = '';
+  productAlreadyInCartMessage: string | undefined = '';
+  isLoading = false;
 
   constructor(
     private productsService: ProductsService,
@@ -31,22 +32,24 @@ export class ProductsListViewComponent implements OnInit {
   }
 
   getProducts(): void {
+    this.isLoading = true
     this.productsService.getProductsList()
       .subscribe((res) => {
         this.store.dispatch(productsActions.setProducts({products: res}))
         this.productsState$ = this.store.pipe(select('productsState'))
         this.productsState$.subscribe((res) => this.products = res.products )
+        this.isLoading = false
       })
   }
 
-  productAddedToCart(event: { res: CartProduct }): void {
-    const { res } = event
-    if(!(typeof res.id === 'undefined')) {
+  productAddedToCart(res: unknown): void {
+    const response = (res as unknown) as CartProduct
+    if(!(typeof response.id === 'undefined')) {
       this.showAddToCartAlert = true
       this.productAlreadyInCartMessage = ''
     } else {
       this.showAddToCartAlert = false
-      this.productAlreadyInCartMessage = res.message
+      this.productAlreadyInCartMessage = response.message
     }
   }
 }

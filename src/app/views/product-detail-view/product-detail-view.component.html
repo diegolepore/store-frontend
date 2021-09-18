@@ -6,7 +6,11 @@
     </a>
     <button type="button" class="btn-close" (click)="showAddToCartAlert = false" aria-label="Close"></button>
   </div>
-  
+
+  <div *ngIf="isLoading" class="d-flex justify-content-center">
+    <div class="spinner-border text-success" role="status">
+    </div>
+  </div>
   <div *ngIf="productAlreadyInCartMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
     {{ productAlreadyInCartMessage }}
     <button type="button" class="btn-close" (click)="productAlreadyInCartMessage = ''" aria-label="Close"></button>

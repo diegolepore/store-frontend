@@ -21,6 +21,7 @@ export class CartViewComponent implements OnInit {
   cardNumber = ''
   date = ''
   cvv = ''
+  isLoading = false
   
   constructor(
     private router: Router,
@@ -35,10 +36,12 @@ export class CartViewComponent implements OnInit {
   }
 
   getProductsInOrder(): void {
+    this.isLoading = true
     this.cartService.currentOrderByUser().subscribe((res) => {
       this.cartArr = (res as unknown) as CartProduct[]
       this.store.dispatch(cartActions.setProductsInCart({cart: res}))
       this.getCartTotalPrice()
+      this.isLoading = false
     })
   }
 

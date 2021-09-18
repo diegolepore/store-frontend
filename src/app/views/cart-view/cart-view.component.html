@@ -1,4 +1,9 @@
 <div class="container mt-5 p-3 rounded cart">
+  <div *ngIf="isLoading" class="d-flex justify-content-center">
+    <div class="spinner-border text-success" role="status">
+    </div>
+  </div>
+
   <div class="row no-gutters">
     <div class="col-md-8">
       <div class="product-details mr-2">
@@ -18,7 +23,6 @@
         <app-cart-item *ngFor="let product of cartArr" [product]="product" (deleteCartItem)="deleteProductFromCart($event)"
           (totalPrice)="getProductsInOrder()">
         </app-cart-item>
-        
         
         </div>
         </div>
