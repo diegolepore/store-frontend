@@ -65,8 +65,10 @@ export class ProductListItemComponent implements OnInit {
   }
 
   getProductsInOrder(): void {
-    this.cartService.currentOrderByUser().subscribe((res) => {
-      this.store.dispatch(cartActions.setProductsInCart({cart: res}))
-    })
+    if(this.access_token) {
+      this.cartService.currentOrderByUser().subscribe((res) => {
+        this.store.dispatch(cartActions.setProductsInCart({cart: res}))
+      })
+    }
   }
 }

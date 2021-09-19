@@ -5,6 +5,14 @@
 
 This is a simple e-commerce application built with **Angular** as the frontend framework which consumes an API that I built for another Udacity project, which is the [**storefront-backend**](https://github.com/diegolepore/storefront-backend) built with **Node.js** and **PostgreSQL**. I have created a Droplet in  :shark: [DigitalOcean](https://www.digitalocean.com/) and exposed the api in the following domain: http://www.storefront-api.xyz:3030/.
 
+### 🔐 Register & Sign up
+The application has a simple authentication implemented, so in order to add products to the shopping cart and complete the order the user has to be authenticated. So you might have to create an account and then log in.
+
+You could use these testing credentials if you prefer:
+```sh
+john@test.com
+Pass1234
+```
 
 ### 📦 Dependencies used 
 Along with the corresponding type definitions, even though these are not included in the list below.
@@ -36,9 +44,6 @@ Along with the corresponding type definitions, even though these are not include
     npm run lint
     npm run lint-and-fix
     ```
-    
-### 🔐 Register & Sign up
-The application has a simple authentication implemented, so in order to add products to the shopping cart and complete the order the user has to be authenticated. So you might have to create an account and then log in.
 
 ### 🪝 Other
 In order to have automatically git hooks enabled after installation, run the following command. You can read more about it in the [Husky documentation](https://typicode.github.io/husky/#/?id=install).
