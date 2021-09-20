@@ -12,7 +12,7 @@ export class ProductsService {
   options!: { headers: HttpHeaders }
 
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://www.storefront-api.xyz:3030'
+    this.baseUrl = 'http://164.90.212.102:3030'
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
