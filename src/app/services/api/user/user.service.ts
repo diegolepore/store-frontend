@@ -21,7 +21,7 @@ export class UserService {
     private httpClient: HttpClient,
     private store: Store<{ authState: Auth}>
   ) {
-    this.baseUrl = 'http://164.90.212.102:3030'
+    this.baseUrl = 'https://retoolapi.dev/y0FyTm'
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => { 
       this.access_token = res.access_token 
@@ -37,7 +37,6 @@ export class UserService {
 
   getAuthUser(): Observable<User> {
     const decoded: { user: User } = jwt_decode(this.access_token)
-
     return this.httpClient.get<User>(`${this.baseUrl}/users/${decoded.user.id}`, this.options)
   }
 }

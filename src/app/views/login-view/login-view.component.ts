@@ -14,6 +14,8 @@ import { Store } from '@ngrx/store'
 import * as authActions from '../../store/auth/auth.actions'
 import * as userActions from '../../store/user/user.actions'
 
+import sign from 'jwt-encode'
+
 @Component({
   selector: 'app-login-view',
   templateUrl: './login-view.component.html',
@@ -44,12 +46,26 @@ export class LoginViewComponent implements OnInit {
     })
   }
 
-  submitLogin(): void {
-    this.authService.login(this.form.getRawValue()).subscribe((res) => {
-      this.store.dispatch(authActions.login({access_token: res.access_token}))
+  // getJWToken(obj): string { return sign({...obj}, 'shhhhh') }
+
+  submitLogin(): void {   
+    this.authService.utilityGetMockUsers().subscribe((res) => {
+      const authUser = res.find((user) => {
+        return user.email === this.form.getRawValue().email
+      })
+      const access_token = sign({user: authUser}, 'shhhhh') 
+
+      this.store.dispatch(authActions.login({access_token: access_token}))
       this.getAuthUser()
-      this.cookieService.set('token', res.access_token)
+      this.cookieService.set('token', access_token)
       this.router.navigate(['/'])
     })
+
+    // this.authService.login(this.form.getRawValue()).subscribe((res) => {
+    //   this.store.dispatch(authActions.login({access_token: res.access_token}))
+    //   this.getAuthUser()
+    //   this.cookieService.set('token', res.access_token)
+    //   this.router.navigate(['/'])
+    // })
   }
 }
