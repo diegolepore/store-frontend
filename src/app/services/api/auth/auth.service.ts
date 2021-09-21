@@ -31,19 +31,6 @@ export class AuthService {
     return this.httpClient.get<User[]>(`${this.baseUrl}/users`)   
   }
 
-  login(authPayload: Login): string {
-    let token = ''
-    this.utilityGetMockUsers().subscribe((res) => {
-      const authUser = res.find((user) => {
-        return user.email === authPayload.email
-      })
-
-      token = getJWToken(authUser)
-    })
-      
-    return token
-  }
-
   register(registerPayload: Register): Observable<RegisterResponse | unknown> {
     return this.httpClient.post(`${this.baseUrl}/users`, registerPayload, options)
   }

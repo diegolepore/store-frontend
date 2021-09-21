@@ -23,6 +23,7 @@ import sign from 'jwt-encode'
 })
 export class LoginViewComponent implements OnInit {
   form!: FormGroup;
+  error = '';
 
   constructor( 
     private formBuilder: FormBuilder, 
@@ -46,26 +47,22 @@ export class LoginViewComponent implements OnInit {
     })
   }
 
-  // getJWToken(obj): string { return sign({...obj}, 'shhhhh') }
-
   submitLogin(): void {   
     this.authService.utilityGetMockUsers().subscribe((res) => {
       const authUser = res.find((user) => {
-        return user.email === this.form.getRawValue().email
+        return user.email === this.form.getRawValue().email && user.pass === this.form.getRawValue().pass
       })
-      const access_token = sign({user: authUser}, 'shhhhh') 
 
-      this.store.dispatch(authActions.login({access_token: access_token}))
-      this.getAuthUser()
-      this.cookieService.set('token', access_token)
-      this.router.navigate(['/'])
+      if(authUser) {
+        const access_token = sign({user: authUser}, 'shhhhh') 
+  
+        this.store.dispatch(authActions.login({access_token: access_token}))
+        this.getAuthUser()
+        this.cookieService.set('token', access_token)
+        this.router.navigate(['/'])
+      } else {
+        this.error = 'Whoops! Either your email or your password are incorrect. Please Try again'
+      }
     })
-
-    // this.authService.login(this.form.getRawValue()).subscribe((res) => {
-    //   this.store.dispatch(authActions.login({access_token: res.access_token}))
-    //   this.getAuthUser()
-    //   this.cookieService.set('token', res.access_token)
-    //   this.router.navigate(['/'])
-    // })
   }
 }
