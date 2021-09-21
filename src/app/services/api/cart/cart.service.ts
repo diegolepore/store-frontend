@@ -36,38 +36,33 @@ export class CartService {
     })
   }
 
-  addToCart(cartPayload: { productId: number, quantity: number }): Observable<unknown> {    
-    const { productId, quantity } = cartPayload
+  // addToCart(cartPayload: { productId: number, quantity: number }): Observable<unknown> {    
+  addToCart(cartPayload: { userId: number, productId: number, quantity: number }): Observable<unknown> {    
+    const { productId, quantity, userId } = cartPayload
     
-    return this.httpClient.post(`${this.baseUrl}/add-to-cart`, { productId, quantity }, this.options)
+    return this.httpClient.post('https://retoolapi.dev/cb2EpI/cart', { product_id: productId, quantity, user_id: userId }, this.options)
+    // return this.httpClient.post(`${this.baseUrl}/add-to-cart`, { productId, quantity }, this.options)
   }
-  
+
   currentOrderByUser(): Observable<unknown> {
     return this.httpClient.get(`${this.baseUrl}/products-in-active-order`, this.options)
   }
 
-  deleteProductFromCart(order_id: number, product_id: number): Observable<unknown> {
-    return this.httpClient.delete(
-      `${this.baseUrl}/delete-porduct-from-cart/order/${order_id}/product/${product_id}`, 
-      this.options
-    )
+  getAllProductsInCart(): Observable<unknown> {
+    return this.httpClient.get<unknown>('https://retoolapi.dev/cb2EpI/cart')
   }
 
-  changeProductQuantity(product_id: number, quantity: number):  Observable<unknown> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.access_token}`
-    })
-    
-    const options = { headers: headers }
+  // deleteProductFromCart(order_id: number, product_id: number): Observable<unknown> {
+  deleteProductFromCart(cart_item_id: number): Observable<unknown> {
+    return this.httpClient.delete(`https://retoolapi.dev/cb2EpI/cart/${cart_item_id}`)
+  }
 
+  changeProductQuantity(cart_item_id: number, quantity: number):  Observable<unknown> {
     return this.httpClient.patch(
-      `${this.baseUrl}/orders/edit-product-quantity`,
+      `https://retoolapi.dev/cb2EpI/cart/${cart_item_id}`,
       {
-        product_id,
         quantity
-      },
-      options
+      }
     )
   }
   

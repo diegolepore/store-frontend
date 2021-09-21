@@ -10,13 +10,14 @@ import { CartService } from '../../services/api/cart/cart.service'
 })
 export class CartItemComponent implements OnInit {
   @Input() product: CartProduct;
-  @Output() deleteCartItem: EventEmitter<{ order_id: number; product_id: number }> = new EventEmitter();
+  @Output() deleteCartItem: EventEmitter<{cart_item_id: number}> = new EventEmitter();
   @Output() totalPrice: EventEmitter<undefined> = new EventEmitter();
   itemTotalPrice = 0
 
 
   constructor(private cartService: CartService) {
     this.product = {
+      id: 0,
       product_id: 0,
       name: '',
       price: 0,
@@ -32,14 +33,14 @@ export class CartItemComponent implements OnInit {
   }
   
   deleteElementFromCart(): void {
-    this.deleteCartItem.emit({order_id: this.product.order_id, product_id: this.product.product_id})
+    this.deleteCartItem.emit({cart_item_id: this.product.id})
   }
 
   stepDown(): void {
     if( this.product.quantity > 1 ) {
       const productQuantity = this.product.quantity - 1
 
-      this.cartService.changeProductQuantity(this.product.product_id, productQuantity).subscribe(() => {
+      this.cartService.changeProductQuantity(this.product.id, productQuantity).subscribe(() => {
         this.itemTotalPrice = this.product.quantity * this.product.price
         this.totalPrice.emit()
       })
@@ -49,7 +50,7 @@ export class CartItemComponent implements OnInit {
   stepUp(): void {
     const productQuantity = this.product.quantity + 1
     
-    this.cartService.changeProductQuantity(this.product.product_id, productQuantity).subscribe(() => {
+    this.cartService.changeProductQuantity(this.product.id, productQuantity).subscribe(() => {
       this.itemTotalPrice = this.product.quantity * this.product.price
       this.totalPrice.emit()
     })

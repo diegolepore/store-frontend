@@ -1,5 +1,6 @@
 export type CartProduct = {
-  id?: string,
+  id: number,
+  user_id?: number,
   product_id: number,
   name: string,
   price: number,

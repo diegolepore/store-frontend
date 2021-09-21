@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { Product } from '../../models/Product'
 import { Auth } from '../../models/Auth'
 import { CartProduct } from 'src/app/models/CartProduct'
+import { User } from 'src/app/models/User'
 
 // Services
 import { ProductsService } from '../../services/api/products/products.service'
@@ -26,12 +27,14 @@ export class ProductDetailViewComponent implements OnInit {
   showAddToCartAlert = false;
   productAlreadyInCartMessage: string | undefined = '';
   isLoading = false;
+  userState$!: Observable<{ user: User}>
+  user!: User
 
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
     private cartService: CartService,
-    private store: Store<{ authState: Auth}>
+    private store: Store<{ userState: { user: User }, authState: Auth}>
   ) {
   }
 
@@ -39,9 +42,9 @@ export class ProductDetailViewComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id') as string
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => this.access_token = res.access_token)
-
+    this.userState$ = this.store.pipe(select('userState'))
+    this.userState$.subscribe((res) => this.user = res.user )
     this.getProduct(this.id)
-    this.getProductsInOrder()
   }
 
   getProduct(id: string): void {
@@ -50,6 +53,7 @@ export class ProductDetailViewComponent implements OnInit {
       .subscribe((res) => {
         this.product = res
         this.isLoading = false
+        this.getProductsInOrder()
       })
   }
 
@@ -66,14 +70,29 @@ export class ProductDetailViewComponent implements OnInit {
   addToCart(): void {
     const cartPayload = {
       productId: this.product.id,
-      quantity: this.quantity
+      quantity: this.quantity,
+      userId: this.user.id
     }
 
-    this.cartService.addToCart(cartPayload).subscribe((res) => {
-      const response = res as CartProduct
-
-      this.productAddedToCart(response)
-      this.getProductsInOrder()
+    this.cartService.getAllProductsInCart().subscribe((res) => {
+      const cartItemsRes = res as unknown as CartProduct[]
+      const isItemInCard = cartItemsRes.find((cartItem) => {
+        return cartItem.product_id === this.product.id && cartItem.user_id === this.user.id
+      })
+      if(isItemInCard){
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        this.productAddedToCart({ message: 'This product is already in the cart' })
+        window.scrollTo(0, 0)
+      } else {
+        this.cartService.addToCart(cartPayload).subscribe((res) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          this.productAddedToCart(res)
+          console.log(res)
+          window.scrollTo(0, 0)
+        })
+      }
     })
   }
 
@@ -81,6 +100,7 @@ export class ProductDetailViewComponent implements OnInit {
     if(!(typeof res.id === 'undefined')) {
       this.showAddToCartAlert = true
       this.productAlreadyInCartMessage = ''
+      this.getProductsInOrder()
     } else {
       this.showAddToCartAlert = false
       this.productAlreadyInCartMessage = res.message
@@ -89,8 +109,12 @@ export class ProductDetailViewComponent implements OnInit {
 
   getProductsInOrder(): void {
     if(this.access_token) {
-      this.cartService.currentOrderByUser().subscribe((res) => {
-        this.store.dispatch(cartActions.setProductsInCart({cart: res}))
+      this.cartService.getAllProductsInCart().subscribe((res) => {
+        const allProductsInCart = (res as unknown) as []
+        const userCart = allProductsInCart.filter((cartItem: { user_id: number }) => {
+          return cartItem.user_id === this.user.id 
+        })        
+        this.store.dispatch(cartActions.setProductsInCart({cart: userCart}))
       })
     }
   }
