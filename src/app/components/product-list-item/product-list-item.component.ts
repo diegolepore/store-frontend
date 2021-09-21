@@ -9,7 +9,7 @@ import { User } from 'src/app/models/User'
 // Store
 import { Store, select } from '@ngrx/store'
 import { Observable } from 'rxjs'
-import * as cartActions from '../../store/cart/cart.actions'
+
 @Component({
   selector: 'app-product-list-item',
   templateUrl: './product-list-item.component.html',
@@ -46,7 +46,6 @@ export class ProductListItemComponent implements OnInit {
     this.authState$.subscribe((res) => this.access_token = res.access_token )
     this.userState$ = this.store.pipe(select('userState'))
     this.userState$.subscribe((res) => this.user = res.user )
-    // this.getProductsInOrder()
   }
 
   stepDown(): void {
@@ -77,7 +76,6 @@ export class ProductListItemComponent implements OnInit {
       } else {
         this.cartService.addToCart(cartPayload).subscribe((res) => {
           this.productAddedToCart.emit(res)
-          console.log(res)
           window.scrollTo(0, 0)
         })
       }

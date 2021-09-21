@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { CartService } from '../../services/api/cart/cart.service'
 import { OrdersService } from '../../services/api/orders/orders.service'
 import { ProductsService } from 'src/app/services/api/products/products.service'
-import { Router } from '@angular/router'
 import { CartProduct } from 'src/app/models/CartProduct'
 import { User } from 'src/app/models/User'
 import { Product } from '../../models/Product'
@@ -33,7 +32,6 @@ export class CartViewComponent implements OnInit {
   products!: Product[]
 
   constructor(
-    private router: Router,
     private cartService: CartService,
     private productsService: ProductsService,
     private ordersService: OrdersService,
@@ -49,6 +47,7 @@ export class CartViewComponent implements OnInit {
       this.productsState$ = this.store.pipe(select('productsState'))
       this.productsState$.subscribe((res) => this.products = res.products)
       this.getProductsInOrder()
+      this.getCartTotalPrice()
     })
   }
 
@@ -62,41 +61,37 @@ export class CartViewComponent implements OnInit {
   //   })
   // }
 
+  getAuthUserCart(res: unknown): CartProduct[] {
+    const allProductsInCart = (res as unknown) as []
+    return allProductsInCart.filter((cartItem: { user_id: number }) => {
+      return cartItem.user_id === this.user.id 
+    })  
+  }
+
   getProductsInOrder(): void {
+    this.isLoading = true
     this.cartService.getAllProductsInCart().subscribe((res) => {
-      const allProductsInCart = (res as unknown) as []
-      const cart = allProductsInCart.filter((cartItem: { user_id: number }) => {
-        return cartItem.user_id === this.user.id 
-      })        
-
-//       const cartArr = []
-
-// product.image_url
-// product.name
-// product.quantity
-// product.quantity
-// product.quantity
-// product.price
+      
+      const authUserCart = this.getAuthUserCart(res)
 
       const userCart: CartProduct[] = []
 
-      cart.forEach((cartItem: { product_id: number }) => {
-        // cartItem.product_id
-        // console.log('cartItem', cartItem)
-        const prod = this.products.filter((prod) => prod.id === cartItem.product_id) as unknown as CartProduct[]
-        // console.log('prod', prod[0])
+      authUserCart.forEach((cartItem: { product_id: number }) => {
+        const cartProd = this.products.filter((prod) => prod.id === cartItem.product_id) as unknown as CartProduct[]
         const cartAndProductDetail = {
           ...cartItem,
-          image_url: prod[0].image_url,
-          price: prod[0].price
+          image_url: cartProd[0].image_url,
+          price: cartProd[0].price,
+          name: cartProd[0].name
         } as CartProduct
 
-        // console.log('cartAndProductDetail', cartAndProductDetail)
         userCart.push(cartAndProductDetail)
       })
 
       this.cartArr = userCart
       this.store.dispatch(cartActions.setProductsInCart({cart: userCart}))
+      this.getCartTotalPrice()
+      this.isLoading = false
     })
   }
 
@@ -111,18 +106,26 @@ export class CartViewComponent implements OnInit {
   deleteProductFromCart(payload: { cart_item_id: number }): void {
     const { cart_item_id } = payload
 
+    this.isLoading = true
     this.cartService.deleteProductFromCart(cart_item_id).subscribe(() => {
       this.getProductsInOrder()
+      this.isLoading = false
     })
   }
 
   completeOrder(): void {
-    this.ordersService.changeOrderStatus(this.cartArr[0].order_id, 'complete').subscribe(() => {
-      this.router.navigate(['/success-order'])
+    this.isLoading = true
+    this.cartService.getAllProductsInCart().subscribe((res) => {
+      const authUserCart = this.getAuthUserCart(res)
+      this.ordersService.deleteItemsFromCart(authUserCart)
     })
   }
 
   productsQuantity(): number {
     return this.cartArr.length
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.isLoading = isLoading
   }
 }

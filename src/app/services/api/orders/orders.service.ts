@@ -3,6 +3,8 @@ import { Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Auth } from '../../../models/Auth'
 import { Store, select } from '@ngrx/store'
+import { CartProduct } from 'src/app/models/CartProduct'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +18,11 @@ export class OrdersService {
   options!: { headers: HttpHeaders }
 
   constructor(
+    private router: Router,
     private httpClient: HttpClient,
     private store: Store<{ authState: Auth}>
   ) {
-    this.baseUrl = 'http://164.90.212.102:3030'
+    this.baseUrl = 'https://retoolapi.dev/cb2EpI'
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => { 
       this.access_token = res.access_token 
@@ -33,7 +36,16 @@ export class OrdersService {
     })
   }
 
-  changeOrderStatus(orderId: number, status: string): Observable<unknown> {    
-    return this.httpClient.put(`${this.baseUrl}/orders/${orderId}`, { status }, this.options)
+  deleteItemsFromCart(authUserCart: CartProduct[]): void {  
+    let i = 0
+    const interval = setInterval(() => {
+      if(i < authUserCart.length) {
+        this.httpClient.delete(`https://retoolapi.dev/cb2EpI/cart/${authUserCart[i].id}`).subscribe()
+      } else {
+        clearInterval(interval)
+        this.router.navigate(['/success-order'])
+      }
+      i++
+    }, 1000)
   }
 }

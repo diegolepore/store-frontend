@@ -36,12 +36,10 @@ export class CartService {
     })
   }
 
-  // addToCart(cartPayload: { productId: number, quantity: number }): Observable<unknown> {    
   addToCart(cartPayload: { userId: number, productId: number, quantity: number }): Observable<unknown> {    
     const { productId, quantity, userId } = cartPayload
     
     return this.httpClient.post('https://retoolapi.dev/cb2EpI/cart', { product_id: productId, quantity, user_id: userId }, this.options)
-    // return this.httpClient.post(`${this.baseUrl}/add-to-cart`, { productId, quantity }, this.options)
   }
 
   currentOrderByUser(): Observable<unknown> {
@@ -52,7 +50,6 @@ export class CartService {
     return this.httpClient.get<unknown>('https://retoolapi.dev/cb2EpI/cart')
   }
 
-  // deleteProductFromCart(order_id: number, product_id: number): Observable<unknown> {
   deleteProductFromCart(cart_item_id: number): Observable<unknown> {
     return this.httpClient.delete(`https://retoolapi.dev/cb2EpI/cart/${cart_item_id}`)
   }

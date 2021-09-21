@@ -1,5 +1,7 @@
+
 <div class="container mt-5 p-3 rounded cart">
-  <div *ngIf="isLoading" class="d-flex justify-content-center">
+  <div *ngIf="isLoading" class="processing-order-overlay"></div>
+  <div *ngIf="isLoading" class="spinner d-flex justify-content-center">
     <div class="spinner-border text-success" role="status">
     </div>
   </div>
@@ -21,154 +23,170 @@
         </div>
 
         <app-cart-item *ngFor="let product of cartArr" [product]="product" (deleteCartItem)="deleteProductFromCart($event)"
-          (totalPrice)="getProductsInOrder()">
+          (totalPrice)="getProductsInOrder()" (setLoading)="setLoading($event)">
         </app-cart-item>
-        
-        </div>
-        </div>
-        <div *ngIf="cartArr.length" class="col-md-4">
-          <div class="payment-info">
-            <form #paymentForm="ngForm" (submit)="completeOrder()">
-              <div class="d-flex justify-content-between align-items-center"><span>Card details</span></div>
-              <div>
-                <label class="credit-card-label">Name on card</label>
-                <input name="nameOnCard" type="text" required class="form-control credit-inputs" placeholder="Name"
-                  [(ngModel)]="nameOnCard">
-              </div>
-              <div>
-                <label class="credit-card-label">Card number</label>
-                <input name="cardNumber" type="number" class=" form-control credit-inputs" placeholder="0000 0000 0000 0000"
-                  [(ngModel)]="cardNumber" required minlength="16" maxlength="16"
-                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-              </div>
+      </div>
+      </div>
+      <div *ngIf="cartArr.length" class="col-md-4">
+        <div class="payment-info">
+          <form #paymentForm="ngForm" (submit)="completeOrder()">
+            <div class="d-flex justify-content-between align-items-center"><span>Card details</span></div>
+            <div>
+              <label class="credit-card-label">Name on card</label>
+              <input name="nameOnCard" type="text" required class="form-control credit-inputs" placeholder="Name"
+                [(ngModel)]="nameOnCard">
+            </div>
+            <div>
+              <label class="credit-card-label">Card number</label>
+              <input name="cardNumber" type="number" class=" form-control credit-inputs" placeholder="0000 0000 0000 0000"
+                [(ngModel)]="cardNumber" required minlength="16" maxlength="16"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <label class="credit-card-label">Date</label>
-                <input name="cardDate" type="text" required class="form-control credit-inputs" placeholder="12/24" [(ngModel)]="date">
+              <input name="cardDate" type="text" required class="form-control credit-inputs" placeholder="12/24" [(ngModel)]="date">
               </div>
               <div class="col-md-6">
                 <label class="credit-card-label">CVV</label>
                 <input name="cvv" type="text" required minlength="3" class="form-control credit-inputs" placeholder="342"
                   [(ngModel)]="cvv">
               </div>
-            </div>
-            <hr class="line">
-            <!-- <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$3000.00</span></div>
+              </div>
+              <hr class="line">
+              <!-- <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$3000.00</span></div>
                         <div class="d-flex justify-content-between information"><span>Shipping</span><span>$20.00</span></div> -->
-            <div class="d-flex justify-content-between information"><span>Total</span><span>{{ cartTotalPrice
-                }}€</span>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block d-flex justify-content-between mt-3"
-              [disabled]="paymentForm.invalid">
-              <span class="me-2">{{ cartTotalPrice }}€</span>
-              <span>Complete order <i class="fa fa-long-arrow-right ml-1"></i></span>
-            </button>
-            </form>
+          <div class="d-flex justify-content-between information"><span>Total</span><span>{{ cartTotalPrice
+              }}€</span>
           </div>
-        </div>
-        </div>
-        </div>
-        
-        <style lang="scss">
-          .payment-info {
-            background: blue;
-            padding: 10px;
-            border-radius: 6px;
-            color: #fff;
-            font-weight: bold
-          }
-        
-          .product-details {
-            padding: 10px
-          }
-        
-          .cart {
-            background: #fff
-          }
-        
-          .p-about {
-            font-size: 12px
-          }
-        
-          .table-shadow {
-            -webkit-box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
-            box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42)
-          }
-        
-          .type {
-            font-weight: 400;
-            font-size: 10px
-          }
-        
-          label.radio {
-            cursor: pointer
-          }
-        
-          label.radio input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            visibility: hidden;
-            pointer-events: none
-          }
-        
-          label.radio span {
-            padding: 1px 12px;
-            border: 2px solid #ada9a9;
-            display: inline-block;
-            color: #8f37aa;
-            border-radius: 3px;
-            text-transform: uppercase;
-            font-size: 11px;
-            font-weight: 300
-          }
-        
-          label.radio input:checked+span {
-            border-color: #fff;
-            background-color: blue;
-            color: #fff
-          }
-        
-          .credit-inputs {
-            background: rgb(102, 102, 221);
-            color: #fff !important;
-            border-color: rgb(102, 102, 221)
-          }
-        
-          .credit-inputs::placeholder {
-            color: #fff;
-            font-size: 13px
-          }
-        
-          .credit-card-label {
-            font-size: 9px;
-            font-weight: 300
-          }
-        
-          .form-control.credit-inputs:focus {
-            background: rgb(102, 102, 221);
-            border: rgb(102, 102, 221)
-          }
-        
-          .line {
-            border-bottom: 1px solid rgb(102, 102, 221)
-          }
-        
-          .information span {
-            font-size: 12px;
-            font-weight: 500
-          }
-        
-          .information {
-            margin-bottom: 5px
-          }
-        
-          .items {
-            -webkit-box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
-            box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08)
-          }
-        
-          .spec {
-            font-size: 11px
-          }
-        </style>
+          <button type="submit" class="btn btn-primary btn-block d-flex justify-content-between mt-3"
+            [disabled]="paymentForm.invalid">
+            <span class="me-2">{{ cartTotalPrice }}€</span>
+            <span>Complete order <i class="fa fa-long-arrow-right ml-1"></i></span>
+          </button>
+          </form>
+          </div>
+          </div>
+          </div>
+          </div>
+          
+          <style lang="scss">
+            .payment-info {
+              background: blue;
+              padding: 10px;
+              border-radius: 6px;
+              color: #fff;
+              font-weight: bold
+            }
+          
+            .product-details {
+              padding: 10px
+            }
+          
+            .cart {
+              background: #fff
+            }
+          
+            .p-about {
+              font-size: 12px
+            }
+          
+            .table-shadow {
+              -webkit-box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
+              box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42)
+            }
+          
+            .type {
+              font-weight: 400;
+              font-size: 10px
+            }
+          
+            label.radio {
+              cursor: pointer
+            }
+          
+            label.radio input {
+              position: absolute;
+              top: 0;
+              left: 0;
+              visibility: hidden;
+              pointer-events: none
+            }
+          
+            label.radio span {
+              padding: 1px 12px;
+              border: 2px solid #ada9a9;
+              display: inline-block;
+              color: #8f37aa;
+              border-radius: 3px;
+              text-transform: uppercase;
+              font-size: 11px;
+              font-weight: 300
+            }
+          
+            label.radio input:checked+span {
+              border-color: #fff;
+              background-color: blue;
+              color: #fff
+            }
+          
+            .credit-inputs {
+              background: rgb(102, 102, 221);
+              color: #fff !important;
+              border-color: rgb(102, 102, 221)
+            }
+          
+            .credit-inputs::placeholder {
+              color: #fff;
+              font-size: 13px
+            }
+          
+            .credit-card-label {
+              font-size: 9px;
+              font-weight: 300
+            }
+          
+            .form-control.credit-inputs:focus {
+              background: rgb(102, 102, 221);
+              border: rgb(102, 102, 221)
+            }
+          
+            .line {
+              border-bottom: 1px solid rgb(102, 102, 221)
+            }
+          
+            .information span {
+              font-size: 12px;
+              font-weight: 500
+            }
+          
+            .information {
+              margin-bottom: 5px
+            }
+          
+            .items {
+              -webkit-box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
+              box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08)
+            }
+          
+            .spec {
+              font-size: 11px
+            }
+
+  .spinner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%)
+  }
+
+  .processing-order-overlay {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+  }
+</style>

@@ -12,8 +12,8 @@ export class CartItemComponent implements OnInit {
   @Input() product: CartProduct;
   @Output() deleteCartItem: EventEmitter<{cart_item_id: number}> = new EventEmitter();
   @Output() totalPrice: EventEmitter<undefined> = new EventEmitter();
+  @Output() setLoading: EventEmitter<boolean> = new EventEmitter();
   itemTotalPrice = 0
-
 
   constructor(private cartService: CartService) {
     this.product = {
@@ -38,21 +38,25 @@ export class CartItemComponent implements OnInit {
 
   stepDown(): void {
     if( this.product.quantity > 1 ) {
+      this.setLoading.emit(true)
       const productQuantity = this.product.quantity - 1
 
       this.cartService.changeProductQuantity(this.product.id, productQuantity).subscribe(() => {
         this.itemTotalPrice = this.product.quantity * this.product.price
         this.totalPrice.emit()
+        this.setLoading.emit(false)
       })
     }
   }
 
   stepUp(): void {
+    this.setLoading.emit(true)
     const productQuantity = this.product.quantity + 1
     
     this.cartService.changeProductQuantity(this.product.id, productQuantity).subscribe(() => {
       this.itemTotalPrice = this.product.quantity * this.product.price
       this.totalPrice.emit()
+      this.setLoading.emit(false)
     })
   }
 

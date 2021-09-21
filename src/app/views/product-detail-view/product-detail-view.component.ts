@@ -89,7 +89,6 @@ export class ProductDetailViewComponent implements OnInit {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           this.productAddedToCart(res)
-          console.log(res)
           window.scrollTo(0, 0)
         })
       }
