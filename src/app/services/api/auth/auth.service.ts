@@ -21,7 +21,7 @@ export class AuthService {
   baseUrl: string
 
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://164.90.212.102:3030'
+    this.baseUrl = 'http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com'
   }
 
   login(authPayload: Login): Observable<Auth> {

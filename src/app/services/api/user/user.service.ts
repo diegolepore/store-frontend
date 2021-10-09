@@ -21,7 +21,7 @@ export class UserService {
     private httpClient: HttpClient,
     private store: Store<{ authState: Auth}>
   ) {
-    this.baseUrl = 'http://164.90.212.102:3030'
+    this.baseUrl = 'http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com'
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => { 
       this.access_token = res.access_token 
