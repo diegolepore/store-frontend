@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { environment } from 'src/environments/environment'
 
 import { Auth } from '../../../models/Auth'
 
@@ -22,7 +23,7 @@ export class CartService {
     private httpClient: HttpClient,
     private store: Store<{ authState: Auth}>
   ) {
-    this.baseUrl = 'http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com'
+    this.baseUrl = environment.baseUrl
     this.authState$ = this.store.pipe(select('authState'))
     this.authState$.subscribe((res) => {
       this.access_token = res.access_token

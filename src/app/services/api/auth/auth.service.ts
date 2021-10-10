@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Auth } from '../../../models/Auth'
 import { Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { environment } from 'src/environments/environment'
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json'
@@ -21,7 +22,7 @@ export class AuthService {
   baseUrl: string
 
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com'
+    this.baseUrl = environment.baseUrl
   }
 
   login(authPayload: Login): Observable<Auth> {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Product } from '../../../models/Product'
 import { Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ProductsService {
   options!: { headers: HttpHeaders }
 
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com'
+    this.baseUrl = environment.baseUrl
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
