@@ -1,5 +1,6 @@
 import 'jest-preset-angular/setup-jest'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 /* global mocks for jsdom */
 const mock = () => {
   let storage: { [key: string]: string } = {}
