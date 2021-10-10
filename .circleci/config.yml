@@ -1,0 +1,34 @@
+version: 2.1
+orbs:
+  # orgs contain basc recipes and reproducible actions (install node, aws, etc.)
+  node: circleci/node@4.1.0
+  aws-cli: circleci/aws-cli@1.3.1
+jobs:
+  build:
+    docker:
+      # the base image can run most needed actions with orbs
+      - image: "cimg/base:stable"
+    steps:
+      - node/install
+      - checkout
+      - aws-cli/setup
+      - run:
+          name: Installation
+          command: |
+            npm install
+      - run:
+          name: Lint
+          command: |
+            npm run lint
+      - run:
+          name: Test
+          command: |
+            npm run test
+      - run:
+          name: Build
+          command: |
+            npm run build
+      - run:
+          name: Deploy to S3 bucket
+          command: |
+            npm run deploy
