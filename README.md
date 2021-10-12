@@ -1,3 +1,18 @@
+## Documentation and screenshots
+
+The documentation folder containg the separate pages on different topics can be found here: https://github.com/diegolepore/store-frontend/tree/main/documentation 
+
+Inside the documentation folder you will find the following files:
+
+- [Infrastructure description](https://github.com/diegolepore/store-frontend/blob/main/documentation/INFRASTRUCTURE.md)
+- [App dependencies](https://github.com/diegolepore/store-frontend/blob/main/documentation/APP_DEPENDENCIES.md)
+- [Pipeline process](https://github.com/diegolepore/store-frontend/blob/main/documentation/PIPELINE_PROCESS.md)
+
+
+The screenshots showing the state of the different Amazon Web Services can be found in this link: https://github.com/diegolepore/store-frontend/tree/main/screenshots
+
+---
+
 # 🛍 MyStore app
 
 ![gif: Lets do this!](https://media.giphy.com/media/11p1o3yoAQ7Sne/giphy.gif?cid=ecf05e473ltttnrh3jn1oacj2fwi6msnam44a41h9w3hxrr6&rid=giphy.gif&ct=g)
