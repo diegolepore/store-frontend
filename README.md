@@ -1,6 +1,11 @@
 ## Documentation and screenshots
 
-> The app is available in the following **AWS S3** bucket domain: http://store-frontend-app.s3-website.eu-west-3.amazonaws.com/
+> The _**Front-end app**_ is available in the following **AWS S3** bucket domain: http://store-frontend-app.s3-website.eu-west-3.amazonaws.com/
+
+> The _**Back-end API**_ is available in the following **AWS EB** domain: http://storefrontbackendapi-env-1.eba-jdqinmwr.eu-west-3.elasticbeanstalk.com/
+
+### Infrasctructure diagram
+![Infrastructure diagram](https://raw.githubusercontent.com/diegolepore/store-frontend/main/screenshots/architecture-diagram.png)
 
 The documentation folder containg the separate pages on different topics can be found here: https://github.com/diegolepore/store-frontend/tree/main/documentation 
 
